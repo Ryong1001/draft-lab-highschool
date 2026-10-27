@@ -1,0 +1,11 @@
+<svg width="540" height="150" viewBox="0 0 540 150" xmlns="http://www.w3.org/2000/svg">
+  <title>Rookiezpark</title>
+  <g transform="translate(36,45)">
+    <polygon points="0,0 62,0 62,30 31,60 0,30" fill="#111417"/>
+    <path d="M11,20 Q31,40 51,20" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <path d="M12,13 Q31,31 50,13" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-dasharray="1.5 4.5"/>
+  </g>
+  <text x="128" y="97" font-family="Montserrat, 'Helvetica Neue', Arial, sans-serif" font-size="46">
+    <tspan font-weight="600" fill="#111417">Rookiez</tspan><tspan font-weight="400" fill="#6b7280">park</tspan>
+  </text>
+</svg>

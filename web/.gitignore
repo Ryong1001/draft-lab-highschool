@@ -1,0 +1,54 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+.vercel
+.env*
+
+# 경기 상세는 전 시즌(2020~2026)을 다 커밋한다.
+#
+# 2026-09-05 까지는 2020~2023 을 뺐었다 — 122MB 인데 /games 가 2026 고정이라 화면
+# 어디에서도 안 열렸기 때문이다. Pro 로 올리면서 Hobby 의 함수 개수 제한이 풀려
+# 전 시즌을 같이 싣기로 했다. /games 에 연도 선택을 붙이면 그대로 쓸 수 있다.
+
+# 로컬 개발 서버에서 쓴 게시판 글(app/lib/board.ts). Upstash 가 없을 때만 생긴다.
+/.local-board.json
+/.local-board-images.json

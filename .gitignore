@@ -1,0 +1,84 @@
+# ── 자격증명 — 절대 커밋 금지 ───────────────────────────────────
+# secrets/secrets.toml 에 GCP 서비스 계정 개인키가 들어 있다.
+# 이게 새어나가면 Drive 데이터 접근 권한이 통째로 노출된다.
+# (secrets.toml.example 은 키가 없는 견본이라 추적한다.)
+**/secrets.toml
+*.pem
+*.key
+.env
+.env.*
+# 서비스 계정 키 JSON 원본. 콘솔에서 받으면 보통 저장소 루트에 떨어지는데,
+# secrets.toml 과 달리 이름이 정해져 있지 않아 규칙으로 막는다.
+rookiezpark*.json
+*-service-account*.json
+*serviceaccount*.json
+
+# ── 별도 저장소 ─────────────────────────────────────────────────
+# 자체 .git 과 remote 를 가진다. 여기서 추적하면 저장소가 중첩되고,
+# gitlink(160000)로만 기록돼 내용은 정작 백업되지 않는다.
+#   web/ → highschool-stats-web   (node_modules/.next 로 1GB)
+#
+# 스트림릿 앱(streamlit_app/ → highschool_stats_detail)도 여기 있었는데, 앱을 안
+# 쓰게 돼서 2026-08-10 에 지웠다. 앱이 쓰던 스탯 엔진은 export_*.py 열두 개가 아직
+# 쓰고 있어 lib/ 로 옮겼고, 명단 xlsx 는 data/ 로, 자격증명은 secrets/ 로 옮겼다.
+# 앱 코드 자체는 GitHub 의 highschool_stats_detail 에 그대로 남아 있다.
+
+# 이 PC 전용 권한 설정 — 공유할 내용이 아니다.
+.claude/settings.local.json
+
+# 이 PC 전용 클로드 지침 — 공유하지 않기로 했다.
+CLAUDE.md
+
+# ── 파이썬 ──────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+
+# ── 대용량 데이터 미러 ──────────────────────────────────────────
+# Drive에서 다시 받을 수 있는 사본이라 저장소에 넣지 않는다.
+# 같이 백업하고 싶으면 아래 두 줄을 지우면 된다.
+/local_mirror/
+/wbsc/
+
+# ── 기타 ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ?? Video analysis (yeongsang-bunseok) ??????????????????????????????
+# Videos live outside the repo (tens of GB). See yeongsang-bunseok/videos.txt
+*.mp4
+*.mkv
+*.avi
+# Scan caches: rebuilt from video in ~13 min each
+
+# fill 이 만드는 입력용 파일 (다 채우면 저절로 사라진다)
+
+# 이 PC 의 파이썬 경로. pv.bat 이 있으면 읽는다 (없어도 알아서 찾는다)
+
+# 엑셀이 파일을 열어 두는 동안 만드는 잠금 파일
+~$*
+
+# 수정 전 백업(*.bak_무엇). git 히스토리가 같은 일을 더 잘 하므로 커밋하지 않는다.
+# 편집 스크립트가 만드는 건 그대로 두되, 저장소에는 올리지 않는다.
+*.bak_*
+
+# 리더보드 카드(PNG)는 스크립트로 언제든 다시 굽는다 — 86장 7MB 를 커밋하지 않는다.
+/분석/카드/
+
+# 인스타 홍보용 카드. 결과 PNG 80장(16MB)은 올리지 않는다 — 만들기.py 와 에셋만
+# 있으면 12초면 다시 굽는다(/분석/카드/ 와 같은 기준이다).
+#
+# 다만 **에셋은 다시 만들 수 없다.** 로고와 구장 사진은 완성된 원본 카드에서 오려 낸
+# 것이라, 잃어버리면 카드의 그 자리가 영영 빈다. 그래서 이 둘만 올린다.
+/카드/*
+!/카드/만들기.py
+!/카드/에셋/
+
+# 입력기 빌드 산물 (python desktop/build.py 로 다시 만든다)
+
+# 경기 기록기 시험 서버가 받은 것 — 시험 계정·토큰·올라온 기록
+
+# 경기 기록기 빌드 산물(python recorder/build.py 로 다시 만든다) · 고치기 전 백업

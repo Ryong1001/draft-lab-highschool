@@ -1,0 +1,45 @@
+import { translateEn } from "@/app/lib/i18n";
+import fs from "fs";
+import path from "path";
+import StandingsView, { StandingRow } from "../components/StandingsView";
+import { romanizer } from "../lib/romanize";
+import { currentLang, serverT } from "../lib/lang";
+
+interface StandingsData {
+  year: number;
+  tournaments?: string[];
+  standings: StandingRow[];
+  teamBatting: Record<string, number | string | null>[];
+  teamPitching: Record<string, number | string | null>[];
+}
+
+async function getStandings(year: number): Promise<StandingsData> {
+  const filePath = path.join(process.cwd(), "data", `standings_${year}.json`);
+  const raw = await fs.promises.readFile(filePath, "utf-8");
+  return JSON.parse(raw) as StandingsData;
+}
+
+export default async function StandingsPage() {
+  const data = await getStandings(2026);
+  const rom = await romanizer();
+  const lang = await currentLang();
+  const t = await serverT();
+
+  return (
+    <main className="min-h-screen px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <h1 className="mb-1 text-lg font-bold">🏆 {t("팀 리더보드", "Team Leaderboard")}</h1>
+        <p className="mb-4 text-sm text-black/50 dark:text-white/50">
+          {lang !== "ko" ? translateEn(lang, `${data.year} season`) : `${data.year} 시즌`}
+        </p>
+      </div>
+      <StandingsView
+        year={data.year}
+        tournaments={data.tournaments ?? []}
+        standings={rom.rows(data.standings)}
+        teamBatting={rom.rows(data.teamBatting)}
+        teamPitching={rom.rows(data.teamPitching)}
+      />
+    </main>
+  );
+}

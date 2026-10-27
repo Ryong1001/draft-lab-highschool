@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #111417;
+  /* 차트 발산 팔레트(좋음↔나쁨). 파랑↔빨강이라야 적록색약에서도 갈린다 —
+     청록↔빨강은 청록이 회색으로 읽혀 채도 검사에서 떨어졌다. 다크는 자동 반전이
+     아니라 어두운 배경에 맞춰 따로 고른 단계다. */
+  --viz-good: #2a78d6;
+  --viz-bad: #e34948;
+}
+
+.dark {
+  --background: #0d0d0d;
+  --foreground: #ffffff;
+  --viz-good: #3987e5;
+  --viz-bad: #e66767;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-gothic-a1);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* 홈 — 소개 상자 숫자 묶음이 넘어갈 때(HomeStats)와 협업 학교·아카데미 흐름 띠(좌 → 우). */
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideup {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; }
+}
+
+/* 인쇄(PDF) — 2026-10-17 사용자: 고정 메뉴가 쪽마다 겹치고 휴대폰 배치로 6장이 나오던 문제.
+   메뉴·떠 있는 단추는 각 요소의 print:hidden 으로 빼고, 여기서는 글자 크기를 줄여 한 쪽에 더 담고
+   그림·표 줄이 쪽 경계에서 잘리지 않게 한다. 넓은 화면 배치는 각 격자의 print: 변형이 맡는다
+   (종이 폭이 lg 보다 좁아 lg: 규칙이 안 먹는다). */
+@media print {
+  @page { size: A4; margin: 8mm; }
+  html { zoom: 0.72; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  svg, tr, .print-keep { break-inside: avoid; }
+  /* 주제(속구 요약·구종 요약·구속 분포·릴리스·Pulse·타구 묶음 …)가 쪽 경계에서 갈리지 않게 —
+     트래킹 구역의 주제 묶음은 모두 mb-5/mb-6 칸이다. 한 쪽보다 긴 것(측정 투구 목록)은 브라우저가 알아서 나눈다. */
+  .trk .mb-6, .trk .mb-5 { break-inside: avoid; }
+  h3 { break-after: avoid; }
+  /* 가로로 넘치는 표는 종이에서 잘리므로 칸 여백·글자를 줄이고 스크롤 상자를 풀어 둔다 */
+  .trk table th, .trk table td { padding-left: 3px !important; padding-right: 3px !important; }
+  .trk table { font-size: 11px; }
+  .trk .overflow-x-auto { overflow: visible !important; }
+}

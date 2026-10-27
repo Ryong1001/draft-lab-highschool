@@ -1,0 +1,104 @@
+# 팀 배포 — 누가 커밋해도 사이트에 반영되게 한다.
+#
+# Vercel Hobby 플랜은 GitHub 연동으로 자동 배포할 때 "커밋 author 이메일이 프로젝트
+# 소유 계정과 같을 때"만 배포한다. 팀원 커밋은 Blocked 로 막힌다. 이 워크플로는
+# 소유자 토큰(VERCEL_TOKEN)으로 CLI 배포를 하므로 배포 주체가 '커밋한 사람'이 아니라
+# '토큰 주인'이 된다 — 그래서 author 제약이 사라진다.
+#
+# ── 최초 1회 설정 (소유 계정 Ryong1001 에서) ─────────────────────────
+#  1. Vercel → Account Settings → Tokens → 토큰 생성
+#  2. web 폴더에서 `npx vercel link` 실행 → .vercel/project.json 의 orgId / projectId 확인
+#     (또는 Vercel 프로젝트 Settings → General 의 Project ID, Account Settings 의 Team/User ID)
+#  3. GitHub → 이 저장소 Settings → Secrets and variables → Actions → New secret 로 3개 등록:
+#       VERCEL_TOKEN  /  VERCEL_ORG_ID  /  VERCEL_PROJECT_ID
+#  4. Vercel 프로젝트 Settings → Git → Disconnect
+#     (연동을 끊지 않으면 같은 커밋을 Vercel 과 이 워크플로가 각각 배포한다)
+#  5. Vercel Settings → Build and Deployment → Deployment Checks 의 Lint/Typecheck 제거
+#     4번을 하면 이 검사들이 영원히 대기한다 — 저장소를 클론해서 도는 구조라 Git
+#     연동이 없으면 실행되지 못하고, Required 로 걸려 있으면 도메인 할당까지 막는다
+#     (2026-09-03 에 실제로 Production Staged 로 멈췄다). 같은 검사를 아래 job 에
+#     넣어 뒀으니 안전망은 유지된다.
+#
+# 빌드는 그대로 Vercel 서버에서 돈다(이 저장소를 통째로 올려 보낸다). 환경변수도
+# Vercel 프로젝트 설정에 있는 것을 그대로 쓰므로 GitHub 쪽에 다시 넣을 필요가 없다.
+name: Deploy
+
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+# 같은 브랜치에 연달아 푸시하면(데이터 갱신 커밋이 몰릴 때) 앞의 배포는 취소한다.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+# 배포는 Vercel 토큰으로 하므로 GITHUB_TOKEN 은 코드 읽기만 있으면 된다.
+# 기본 권한(쓰기 포함)을 그대로 두면 이 job 이 털렸을 때 저장소에 푸시까지 할 수 있다.
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: 필요한 Secret 이 있는지 먼저 확인
+        run: |
+          for v in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!v}" ]; then
+              echo "::error::GitHub Secret 이 없습니다: $v — 이 파일 상단의 '최초 1회 설정'을 보세요."
+              exit 1
+            fi
+          done
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          # 러너에 미리 깔린 22.x 가 아니라 최신 22.x 를 받는다. 미리 깔린 것은 보안 패치가
+          # 늦게 들어온다(2026-10 Brotli CVE-2026-111497 은 22.23.4 에서 고쳐졌다).
+          check-latest: true
+          cache: npm
+
+      # 배포 전에 여기서 막는다. Vercel 의 Deployment Checks(Lint/Typecheck)는 Git
+      # 연동이 있어야 도는데(저장소를 클론해서 실행한다), 이 프로젝트는 연동을 끊고
+      # 토큰 CLI 로 배포하므로 그 검사가 영원히 대기 상태로 남는다. 그래서 같은 검사를
+      # 여기로 옮겨 왔다 — data/ 202MB 를 업로드하기 전에 걸러져 더 빠르기도 하다.
+      #
+      # next build 는 타입 오류는 잡지만 **ESLint 는 돌리지 않는다**(Next 16 에서
+      # next lint 가 폐지되며 분리됐다). lint 를 여기서 안 돌리면 아무도 안 돌린다.
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: 타입 검사
+        run: npx tsc --noEmit
+
+      - name: Vercel CLI 설치
+        run: npm i -g vercel@65.2.0
+
+      - name: 배포 (master → Production, 그 외 브랜치 → Preview)
+        run: |
+          # pipefail 이 없으면 vercel 이 실패해도 tee 의 성공 코드에 가려 단계가 통과한다.
+          set -eo pipefail
+          # --archive=tgz 는 필수다. 이 저장소는 data/ 만 6,800여 개 파일(약 89MB)이라
+          # 파일을 하나씩 올리면 Hobby 플랜의 "24시간 5,000개" 업로드 한도에 걸려
+          # api-upload-free 로 죽는다(2026-08-23 실측). tgz 로 묶으면 업로드는 1건이다.
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            vercel deploy --prod --yes --archive=tgz --token="$VERCEL_TOKEN" | tee url.txt
+          else
+            vercel deploy --yes --archive=tgz --token="$VERCEL_TOKEN" | tee url.txt
+          fi
+          {
+            echo "### 배포 완료"
+            echo ""
+            echo "- 브랜치: \`${{ github.ref_name }}\`"
+            echo "- 주소: $(tail -1 url.txt)"
+          } >> "$GITHUB_STEP_SUMMARY"

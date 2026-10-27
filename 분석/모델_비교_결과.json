@@ -1,0 +1,796 @@
+{
+ "features": {
+  "타자": 25,
+  "투수": 14
+ },
+ "train_cohorts": [
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "compare": [
+  {
+   "model": "단순 기준선",
+   "타자": {
+    "oof_auroc": 0.8043,
+    "oof_p10": 4.5,
+    "oof_p30": 11.7,
+    "oof_p50": 17.7,
+    "test_auroc": 0.8133,
+    "test_p10": 6,
+    "test_p30": 10,
+    "test_p50": 15,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   "투수": {
+    "oof_auroc": 0.8152,
+    "oof_p10": 7.2,
+    "oof_p30": 15.8,
+    "oof_p50": 23.7,
+    "test_auroc": 0.7846,
+    "test_p10": 6,
+    "test_p30": 15,
+    "test_p50": 19,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   "전체": {
+    "oof_auroc": 0.8083,
+    "oof_p10": 6.3,
+    "oof_p30": 15.2,
+    "oof_p50": 24.0,
+    "test_auroc": 0.7978,
+    "test_p10": 8,
+    "test_p30": 17,
+    "test_p50": 23,
+    "test_n": 888,
+    "test_drafted": 80
+   }
+  },
+  {
+   "model": "로지스틱 회귀",
+   "타자": {
+    "oof_auroc": 0.8828,
+    "oof_p10": 7.8,
+    "oof_p30": 16.7,
+    "oof_p50": 23.8,
+    "test_auroc": 0.8753,
+    "test_p10": 6,
+    "test_p30": 13,
+    "test_p50": 18,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   "투수": {
+    "oof_auroc": 0.9054,
+    "oof_p10": 9.0,
+    "oof_p30": 21.3,
+    "oof_p50": 28.5,
+    "test_auroc": 0.9073,
+    "test_p10": 8,
+    "test_p30": 20,
+    "test_p50": 26,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   "전체": {
+    "oof_auroc": 0.8972,
+    "oof_p10": 8.8,
+    "oof_p30": 23.3,
+    "oof_p50": 34.0,
+    "test_auroc": 0.9006,
+    "test_p10": 7,
+    "test_p30": 18,
+    "test_p50": 28,
+    "test_n": 888,
+    "test_drafted": 80
+   }
+  },
+  {
+   "model": "랜덤포레스트",
+   "타자": {
+    "oof_auroc": 0.8617,
+    "oof_p10": 8.0,
+    "oof_p30": 17.5,
+    "oof_p50": 22.5,
+    "test_auroc": 0.8535,
+    "test_p10": 8,
+    "test_p30": 16,
+    "test_p50": 19,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   "투수": {
+    "oof_auroc": 0.9035,
+    "oof_p10": 9.2,
+    "oof_p30": 21.0,
+    "oof_p50": 28.7,
+    "test_auroc": 0.8942,
+    "test_p10": 7,
+    "test_p30": 21,
+    "test_p50": 26,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   "전체": {
+    "oof_auroc": 0.8869,
+    "oof_p10": 8.8,
+    "oof_p30": 23.8,
+    "oof_p50": 34.2,
+    "test_auroc": 0.8861,
+    "test_p10": 7,
+    "test_p30": 22,
+    "test_p50": 32,
+    "test_n": 888,
+    "test_drafted": 80
+   }
+  },
+  {
+   "model": "LightGBM (1학기 설정)",
+   "타자": {
+    "oof_auroc": 0.8532,
+    "oof_p10": 7.7,
+    "oof_p30": 15.8,
+    "oof_p50": 22.0,
+    "test_auroc": 0.8313,
+    "test_p10": 7,
+    "test_p30": 14,
+    "test_p50": 17,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   "투수": {
+    "oof_auroc": 0.8976,
+    "oof_p10": 9.0,
+    "oof_p30": 20.3,
+    "oof_p50": 27.5,
+    "test_auroc": 0.8835,
+    "test_p10": 6,
+    "test_p30": 20,
+    "test_p50": 24,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   "전체": {
+    "oof_auroc": 0.88,
+    "oof_p10": 9.2,
+    "oof_p30": 22.8,
+    "oof_p50": 32.7,
+    "test_auroc": 0.8736,
+    "test_p10": 7,
+    "test_p30": 19,
+    "test_p50": 30,
+    "test_n": 888,
+    "test_drafted": 80
+   }
+  },
+  {
+   "model": "LightGBM (최종)",
+   "타자": {
+    "oof_auroc": 0.8707,
+    "oof_p10": 7.5,
+    "oof_p30": 16.0,
+    "oof_p50": 22.5,
+    "test_auroc": 0.8528,
+    "test_p10": 7,
+    "test_p30": 16,
+    "test_p50": 19,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   "투수": {
+    "oof_auroc": 0.9076,
+    "oof_p10": 9.5,
+    "oof_p30": 21.3,
+    "oof_p50": 29.2,
+    "test_auroc": 0.8987,
+    "test_p10": 6,
+    "test_p30": 18,
+    "test_p50": 24,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   "전체": {
+    "oof_auroc": 0.893,
+    "oof_p10": 9.5,
+    "oof_p30": 23.8,
+    "oof_p50": 35.0,
+    "test_auroc": 0.8879,
+    "test_p10": 8,
+    "test_p30": 18,
+    "test_p50": 30,
+    "test_n": 888,
+    "test_drafted": 80
+   }
+  }
+ ],
+ "boot": {
+  "단순 기준선": [
+   0.0703,
+   0.0992
+  ],
+  "로지스틱 회귀": [
+   -0.0099,
+   0.0015
+  ],
+  "랜덤포레스트": [
+   0.0001,
+   0.0124
+  ],
+  "LightGBM (1학기 설정)": [
+   0.0078,
+   0.0183
+  ]
+ },
+ "ablation": {
+  "타자": [
+   {
+    "set": "전체 25개",
+    "n": 25,
+    "oof_auroc": 0.8707,
+    "oof_p10": 7.5,
+    "oof_p30": 16.0,
+    "oof_p50": 22.5,
+    "test_auroc": 0.8528,
+    "test_p10": 7,
+    "test_p30": 16,
+    "test_p50": 19,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   {
+    "set": "− 이전 학년 13개",
+    "n": 12,
+    "oof_auroc": 0.8514,
+    "oof_p10": 6.2,
+    "oof_p30": 13.7,
+    "oof_p50": 19.3,
+    "test_auroc": 0.8306,
+    "test_p10": 7,
+    "test_p30": 9,
+    "test_p50": 13,
+    "test_n": 492,
+    "test_drafted": 35
+   },
+   {
+    "set": "− 타석 수",
+    "n": 24,
+    "oof_auroc": 0.8486,
+    "oof_p10": 6.5,
+    "oof_p30": 16.8,
+    "oof_p50": 21.2,
+    "test_auroc": 0.8489,
+    "test_p10": 7,
+    "test_p30": 16,
+    "test_p50": 20,
+    "test_n": 492,
+    "test_drafted": 35
+   }
+  ],
+  "투수": [
+   {
+    "set": "전체 14개",
+    "n": 14,
+    "oof_auroc": 0.9076,
+    "oof_p10": 9.5,
+    "oof_p30": 21.3,
+    "oof_p50": 29.2,
+    "test_auroc": 0.8987,
+    "test_p10": 6,
+    "test_p30": 18,
+    "test_p50": 24,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   {
+    "set": "− 상대 수준·전국대회 비율",
+    "n": 12,
+    "oof_auroc": 0.886,
+    "oof_p10": 8.3,
+    "oof_p30": 18.3,
+    "oof_p50": 24.8,
+    "test_auroc": 0.8899,
+    "test_p10": 6,
+    "test_p30": 16,
+    "test_p50": 24,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   {
+    "set": "− K%oe",
+    "n": 13,
+    "oof_auroc": 0.8981,
+    "oof_p10": 9.3,
+    "oof_p30": 20.5,
+    "oof_p50": 28.5,
+    "test_auroc": 0.8783,
+    "test_p10": 6,
+    "test_p30": 19,
+    "test_p50": 22,
+    "test_n": 411,
+    "test_drafted": 45
+   },
+   {
+    "set": "− 이닝",
+    "n": 13,
+    "oof_auroc": 0.9066,
+    "oof_p10": 9.2,
+    "oof_p30": 21.3,
+    "oof_p50": 29.3,
+    "test_auroc": 0.8915,
+    "test_p10": 5,
+    "test_p30": 17,
+    "test_p50": 22,
+    "test_n": 411,
+    "test_drafted": 45
+   }
+  ]
+ },
+ "shap": {
+  "타자": [
+   {
+    "feature": "타석 수",
+    "mean_abs": 0.7196
+   },
+   {
+    "feature": "BB%",
+    "mean_abs": 0.3693
+   },
+   {
+    "feature": "고1·2 AVG",
+    "mean_abs": 0.2751
+   },
+   {
+    "feature": "OPS",
+    "mean_abs": 0.2515
+   },
+   {
+    "feature": "HR%",
+    "mean_abs": 0.1755
+   },
+   {
+    "feature": "IsoP",
+    "mean_abs": 0.1672
+   },
+   {
+    "feature": "SLG",
+    "mean_abs": 0.1589
+   },
+   {
+    "feature": "고1·2 SLG",
+    "mean_abs": 0.1369
+   },
+   {
+    "feature": "고1·2 타석 수",
+    "mean_abs": 0.1365
+   },
+   {
+    "feature": "고1·2 OPS",
+    "mean_abs": 0.1349
+   },
+   {
+    "feature": "IsoD",
+    "mean_abs": 0.1339
+   },
+   {
+    "feature": "장타%",
+    "mean_abs": 0.1115
+   },
+   {
+    "feature": "K%",
+    "mean_abs": 0.1098
+   },
+   {
+    "feature": "고1·2 장타%",
+    "mean_abs": 0.1045
+   },
+   {
+    "feature": "고1·2 IsoD",
+    "mean_abs": 0.0851
+   },
+   {
+    "feature": "OBP",
+    "mean_abs": 0.0826
+   },
+   {
+    "feature": "고1·2 BABIP",
+    "mean_abs": 0.0762
+   },
+   {
+    "feature": "고1·2 K%",
+    "mean_abs": 0.0755
+   },
+   {
+    "feature": "AVG",
+    "mean_abs": 0.0734
+   },
+   {
+    "feature": "고1·2 HR%",
+    "mean_abs": 0.0685
+   },
+   {
+    "feature": "BABIP",
+    "mean_abs": 0.0668
+   },
+   {
+    "feature": "고1·2 BB%",
+    "mean_abs": 0.0558
+   },
+   {
+    "feature": "고1·2 IsoP",
+    "mean_abs": 0.0496
+   },
+   {
+    "feature": "고1·2 OBP",
+    "mean_abs": 0.0274
+   },
+   {
+    "feature": "이전 시즌 수",
+    "mean_abs": 0.0045
+   }
+  ],
+  "타자_example": {
+   "base_logodds": -3.784,
+   "prob_raw": 0.9708,
+   "top": [
+    {
+     "feature": "HR%",
+     "contrib": 0.901,
+     "pct": 97.8
+    },
+    {
+     "feature": "고1·2 타석 수",
+     "contrib": 0.87,
+     "pct": 99.4
+    },
+    {
+     "feature": "타석 수",
+     "contrib": 0.87,
+     "pct": 83.3
+    },
+    {
+     "feature": "고1·2 OPS",
+     "contrib": 0.747,
+     "pct": 98.0
+    },
+    {
+     "feature": "장타%",
+     "contrib": 0.503,
+     "pct": 98.4
+    },
+    {
+     "feature": "BB%",
+     "contrib": 0.429,
+     "pct": 89.3
+    }
+   ]
+  },
+  "투수": [
+   {
+    "feature": "K%oe",
+    "mean_abs": 1.5427
+   },
+   {
+    "feature": "전국대회 비율",
+    "mean_abs": 0.5994
+   },
+   {
+    "feature": "상대 타자 수준",
+    "mean_abs": 0.4634
+   },
+   {
+    "feature": "HR/9",
+    "mean_abs": 0.278
+   },
+   {
+    "feature": "K%",
+    "mean_abs": 0.1531
+   },
+   {
+    "feature": "WHIP",
+    "mean_abs": 0.1466
+   },
+   {
+    "feature": "이닝",
+    "mean_abs": 0.1445
+   },
+   {
+    "feature": "FIP",
+    "mean_abs": 0.1392
+   },
+   {
+    "feature": "BAA",
+    "mean_abs": 0.1364
+   },
+   {
+    "feature": "BB%",
+    "mean_abs": 0.1347
+   },
+   {
+    "feature": "ERA",
+    "mean_abs": 0.127
+   },
+   {
+    "feature": "K/BB",
+    "mean_abs": 0.0645
+   },
+   {
+    "feature": "K/9",
+    "mean_abs": 0.0454
+   },
+   {
+    "feature": "BB/9",
+    "mean_abs": 0.042
+   }
+  ],
+  "투수_example": {
+   "base_logodds": -3.698,
+   "prob_raw": 0.9929,
+   "top": [
+    {
+     "feature": "K%oe",
+     "contrib": 4.047,
+     "pct": 100.0
+    },
+    {
+     "feature": "상대 타자 수준",
+     "contrib": 1.099,
+     "pct": 90.0
+    },
+    {
+     "feature": "WHIP",
+     "contrib": 0.995,
+     "pct": 1.0
+    },
+    {
+     "feature": "전국대회 비율",
+     "contrib": 0.952,
+     "pct": 89.5
+    },
+    {
+     "feature": "ERA",
+     "contrib": 0.509,
+     "pct": 0.5
+    },
+    {
+     "feature": "BAA",
+     "contrib": 0.348,
+     "pct": 1.0
+    }
+   ]
+  }
+ },
+ "calibration": {
+  "타자": {
+   "slope": 0.775,
+   "intercept": -0.206,
+   "brier_raw": 0.0582,
+   "brier_cal": 0.0579,
+   "bins": [
+    {
+     "bin": "0~10%",
+     "kind": "raw",
+     "n": 2299,
+     "said": 1.9,
+     "actual": 3.3
+    },
+    {
+     "bin": "0~10%",
+     "kind": "cal",
+     "n": 2182,
+     "said": 2.9,
+     "actual": 2.9
+    },
+    {
+     "bin": "10~30%",
+     "kind": "raw",
+     "n": 286,
+     "said": 17.4,
+     "actual": 20.3
+    },
+    {
+     "bin": "10~30%",
+     "kind": "cal",
+     "n": 412,
+     "said": 17.4,
+     "actual": 18.4
+    },
+    {
+     "bin": "30~50%",
+     "kind": "raw",
+     "n": 80,
+     "said": 37.5,
+     "actual": 35.0
+    },
+    {
+     "bin": "30~50%",
+     "kind": "cal",
+     "n": 91,
+     "said": 38.6,
+     "actual": 35.2
+    },
+    {
+     "bin": "50~70%",
+     "kind": "raw",
+     "n": 58,
+     "said": 59.4,
+     "actual": 51.7
+    },
+    {
+     "bin": "50~70%",
+     "kind": "cal",
+     "n": 63,
+     "said": 59.0,
+     "actual": 55.6
+    },
+    {
+     "bin": "70~90%",
+     "kind": "raw",
+     "n": 44,
+     "said": 78.9,
+     "actual": 72.7
+    },
+    {
+     "bin": "70~90%",
+     "kind": "cal",
+     "n": 33,
+     "said": 80.3,
+     "actual": 87.9
+    },
+    {
+     "bin": "90~100%",
+     "kind": "raw",
+     "n": 25,
+     "said": 95.1,
+     "actual": 84.0
+    },
+    {
+     "bin": "90~100%",
+     "kind": "cal",
+     "n": 11,
+     "said": 94.5,
+     "actual": 81.8
+    }
+   ]
+  },
+  "투수": {
+   "slope": 0.813,
+   "intercept": -0.17,
+   "brier_raw": 0.0698,
+   "brier_cal": 0.0696,
+   "bins": [
+    {
+     "bin": "0~10%",
+     "kind": "raw",
+     "n": 1651,
+     "said": 1.8,
+     "actual": 2.6
+    },
+    {
+     "bin": "0~10%",
+     "kind": "cal",
+     "n": 1577,
+     "said": 2.3,
+     "actual": 2.3
+    },
+    {
+     "bin": "10~30%",
+     "kind": "raw",
+     "n": 304,
+     "said": 18.3,
+     "actual": 22.0
+    },
+    {
+     "bin": "10~30%",
+     "kind": "cal",
+     "n": 379,
+     "said": 18.2,
+     "actual": 19.8
+    },
+    {
+     "bin": "30~50%",
+     "kind": "raw",
+     "n": 122,
+     "said": 39.3,
+     "actual": 33.6
+    },
+    {
+     "bin": "30~50%",
+     "kind": "cal",
+     "n": 143,
+     "said": 38.7,
+     "actual": 35.7
+    },
+    {
+     "bin": "50~70%",
+     "kind": "raw",
+     "n": 88,
+     "said": 59.4,
+     "actual": 56.8
+    },
+    {
+     "bin": "50~70%",
+     "kind": "cal",
+     "n": 86,
+     "said": 58.4,
+     "actual": 60.5
+    },
+    {
+     "bin": "70~90%",
+     "kind": "raw",
+     "n": 64,
+     "said": 80.3,
+     "actual": 62.5
+    },
+    {
+     "bin": "70~90%",
+     "kind": "cal",
+     "n": 62,
+     "said": 79.7,
+     "actual": 71.0
+    },
+    {
+     "bin": "90~100%",
+     "kind": "raw",
+     "n": 51,
+     "said": 95.7,
+     "actual": 98.0
+    },
+    {
+     "bin": "90~100%",
+     "kind": "cal",
+     "n": 33,
+     "said": 94.4,
+     "actual": 100.0
+    }
+   ]
+  }
+ },
+ "errors": {
+  "pool": 888,
+  "drafted": 80,
+  "drafted_rank_bands": {
+   "1~30위": 18,
+   "31~90위": 23,
+   "91~200위": 19,
+   "201위 이하": 20
+  },
+  "round_by_band": {
+   "1~30위": {
+    "count": 18.0,
+    "mean": 3.5
+   },
+   "31~90위": {
+    "count": 23.0,
+    "mean": 4.7
+   },
+   "91위 이하": {
+    "count": 39.0,
+    "mean": 7.6
+   }
+  },
+  "top30_undrafted": 12,
+  "role_missed": {
+   "투수": 22,
+   "타자": 17
+  },
+  "pct_median": {
+   "놓친 지명자": {
+    "타자 OPS": 83.1,
+    "타자 타석": 72.2,
+    "투수 FIP": 35.2,
+    "투수 이닝": 75.7
+   },
+   "맞힌 지명자": {
+    "타자 OPS": 89.3,
+    "타자 타석": 95.6,
+    "투수 FIP": 1.7,
+    "투수 이닝": 93.4
+   }
+  }
+ }
+}
